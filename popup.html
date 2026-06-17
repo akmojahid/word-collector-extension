@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wlist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=Noto+Serif+Bengali:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="url(#grad)"/>
+            <text x="7" y="22" font-size="16" fill="white" font-family="serif" font-weight="bold">অ</text>
+            <text x="17" y="20" font-size="11" fill="rgba(255,255,255,0.85)" font-family="serif" font-weight="bold">A</text>
+            <defs>
+              <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6c5ce7"/>
+                <stop offset="100%" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">Wlist</span>
+          <span class="logo-sub">Study & collect words</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+      <button class="icon-btn export-btn" id="exportBtn" title="Export JSON">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value" id="totalCount">0</span>
+      <span class="stat-label">Total Words</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-value" id="enCount">0</span>
+      <span class="stat-label">English</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-value" id="bnCount">0</span>
+      <span class="stat-label">বাংলা</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-value" id="chunkCount">0</span>
+      <span class="stat-label">Chunks</span>
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="english">
+      <span class="tab-label">English</span>
+      <span class="tab-badge" id="enBadge">0</span>
+    </button>
+    <button class="tab-btn" data-tab="bangla">
+      <span class="tab-label">বাংলা</span>
+      <span class="tab-badge" id="bnBadge">0</span>
+    </button>
+    <button class="tab-btn" data-tab="phrase">
+      <span class="tab-label">Phrase</span>
+      <span class="tab-badge" id="phBadge">0</span>
+    </button>
+    <button class="tab-btn" data-tab="settings">
+      <span class="tab-label">Settings</span>
+    </button>
+  </div>
+
+  <!-- Content Panels -->
+  <div class="panel-container">
+
+    <!-- English Panel -->
+    <div class="panel active" id="panel-english">
+      <div class="panel-toolbar">
+        <span class="toolbar-hint">Click a chunk to expand • Copy words as array</span>
+        <button class="small-btn danger-btn" id="clearEnBtn">Clear All</button>
+      </div>
+      <div class="chunks-list" id="enChunks">
+        <div class="empty-state" id="enEmpty">
+          <div class="empty-icon">📖</div>
+          <p>No English words yet</p>
+          <span>Select a word on any page and press <kbd>Alt+S</kbd> or right-click → Save to Vocab Vault</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bangla Panel -->
+    <div class="panel" id="panel-bangla">
+      <div class="panel-toolbar">
+        <span class="toolbar-hint">Click a chunk to expand • Copy words as array</span>
+        <button class="small-btn danger-btn" id="clearBnBtn">Clear All</button>
+      </div>
+      <div class="chunks-list" id="bnChunks">
+        <div class="empty-state" id="bnEmpty">
+          <div class="empty-icon">📚</div>
+          <p>No Bangla words yet</p>
+          <span>Select a বাংলা word on any page and press <kbd>Alt+S</kbd></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phrase Panel -->
+    <div class="panel" id="panel-phrase">
+      <div class="panel-toolbar">
+        <span class="toolbar-hint">Click a chunk to expand • Copy phrases as array</span>
+        <button class="small-btn danger-btn" id="clearPhraseBtn">Clear All</button>
+      </div>
+      <div class="chunks-list" id="phChunks">
+        <div class="empty-state" id="phEmpty">
+          <div class="empty-icon">✍️</div>
+          <p>No phrases yet</p>
+          <span>Select a phrase or sentence and press <kbd>Alt+S</kbd> or right-click → Save to Vocab Vault</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="panel" id="panel-settings">
+      <div class="settings-section">
+        <h3 class="settings-heading">Keyboard Shortcut</h3>
+        <p class="settings-desc">To change the shortcut, go to Chrome's extension shortcuts:</p>
+        <a href="#" class="settings-link" id="openShortcutsPage">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          chrome://extensions/shortcuts
+        </a>
+        <div class="shortcut-display">
+          <span>Current shortcut:</span>
+          <kbd>Alt</kbd><span>+</span><kbd>S</kbd>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-heading">How to Use</h3>
+        <ul class="how-to-list">
+          <li><span class="step-num">1</span> Select a word or phrase (up to 5 words)</li>
+          <li><span class="step-num">2</span> Press <kbd>Alt+S</kbd> or right-click → "Save to Vocab Vault"</li>
+          <li><span class="step-num">3</span> Words auto-detect as English or Bangla</li>
+          <li><span class="step-num">4</span> Words are grouped in chunks of 20</li>
+          <li><span class="step-num">5</span> Export your full database as JSON anytime</li>
+        </ul>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-heading">Data Management</h3>
+        <div class="settings-actions">
+          <button class="settings-action-btn" id="exportBtnSettings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export Full Database
+          </button>
+          <button class="settings-action-btn danger" id="clearAllBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+            Clear All Words
+          </button>
+        </div>
+        <p class="settings-note" id="lastUpdated">—</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Toast inside popup -->
+<div id="popupToast" class="popup-toast hidden"></div>
+
+<!-- Confirm Dialog -->
+<div class="confirm-overlay hidden" id="confirmOverlay">
+  <div class="confirm-dialog">
+    <p class="confirm-msg" id="confirmMsg">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" id="confirmCancel">Cancel</button>
+      <button class="confirm-ok" id="confirmOk">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
