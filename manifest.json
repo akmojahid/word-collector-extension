@@ -34,6 +34,13 @@
         "mac": "Alt+S"
       },
       "description": "Save selected word to Vocab Vault"
+    },
+    "save-error": {
+      "suggested_key": {
+        "default": "Alt+X",
+        "mac": "Alt+X"
+      },
+      "description": "Save selected text to Error Log"
     }
   },
   "icons": {

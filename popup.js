@@ -21,6 +21,7 @@ function renderAll() {
   renderChunks("en");
   renderChunks("bn");
   renderChunks("ph");
+  renderChunks("error");
 }
 
 // ── Stats ──
@@ -28,12 +29,14 @@ function renderStats() {
   const enWords = getAllWords("en");
   const bnWords = getAllWords("bn");
   const phWords = getAllWords("ph");
-  const total = enWords.length + bnWords.length + phWords.length;
+  const errWords = getAllWords("error");
+  const total = enWords.length + bnWords.length + phWords.length + errWords.length;
 
   const enChunks = Object.keys(vocabData.words.EN_words).filter(k => vocabData.words.EN_words[k].length > 0);
   const bnChunks = Object.keys(vocabData.words.BN_words).filter(k => vocabData.words.BN_words[k].length > 0);
   const phChunks = Object.keys(vocabData.words.PH_words).filter(k => vocabData.words.PH_words[k].length > 0);
-  const totalChunks = enChunks.length + bnChunks.length + phChunks.length;
+  const errChunks = Object.keys(vocabData.words.ERROR_words || {}).filter(k => vocabData.words.ERROR_words[k].length > 0);
+  const totalChunks = enChunks.length + bnChunks.length + phChunks.length + errChunks.length;
 
   document.getElementById("totalCount").textContent = total;
   document.getElementById("enCount").textContent = enWords.length;
@@ -42,6 +45,7 @@ function renderStats() {
   document.getElementById("enBadge").textContent = enWords.length;
   document.getElementById("bnBadge").textContent = bnWords.length;
   document.getElementById("phBadge").textContent = phWords.length;
+  document.getElementById("errBadge").textContent = errWords.length;
 
   const lu = vocabData.meta.lastUpdated;
   if (lu) {
@@ -52,12 +56,12 @@ function renderStats() {
 }
 
 function getAllWords(lang) {
-  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : "PH_words";
-  return Object.values(vocabData.words[langKey]).flat();
+  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : lang === "ph" ? "PH_words" : "ERROR_words";
+  return Object.values(vocabData.words[langKey] || {}).flat();
 }
 
 function getChunkMeta(lang, chunkNum) {
-  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : "PH_words";
+  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : lang === "ph" ? "PH_words" : "ERROR_words";
   return vocabData.chunkMeta?.[langKey]?.[chunkNum] || { status: "running", completedAt: null, updatedAt: null };
 }
 
@@ -73,9 +77,9 @@ function formatChunkStatus(words, meta) {
 
 // ── Render Chunks ──
 function renderChunks(lang) {
-  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : "PH_words";
-  const container = document.getElementById(lang === "en" ? "enChunks" : lang === "bn" ? "bnChunks" : "phChunks");
-  const emptyId = lang === "en" ? "enEmpty" : lang === "bn" ? "bnEmpty" : "phEmpty";
+  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : lang === "ph" ? "PH_words" : "ERROR_words";
+  const container = document.getElementById(lang === "en" ? "enChunks" : lang === "bn" ? "bnChunks" : lang === "ph" ? "phChunks" : "errChunks");
+  const emptyId = lang === "en" ? "enEmpty" : lang === "bn" ? "bnEmpty" : lang === "ph" ? "phEmpty" : "errEmpty";
   const chunks = vocabData.words[langKey];
   const chunkEntries = Object.keys(chunks).map(Number).map(chunkNum => ({
     chunkNum,
@@ -246,7 +250,7 @@ function renderArray(lang, chunkNum, words, card) {
 }
 
 function copyChunkAsArray(lang, chunkNum) {
-  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : "PH_words";
+  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : lang === "ph" ? "PH_words" : "ERROR_words";
   const words = vocabData.words[langKey][chunkNum] || [];
   const arrayStr = JSON.stringify(words, null, 0);
   navigator.clipboard.writeText(arrayStr).then(() => {
@@ -320,6 +324,11 @@ function setupButtons() {
     confirmDelete("Clear all phrases?", () => clearLang("ph"));
   });
 
+  // Clear Error Log
+  document.getElementById("clearErrorBtn").addEventListener("click", () => {
+    confirmDelete("Clear all Error Log entries?", () => clearLang("error"));
+  });
+
   // Clear All
   document.getElementById("clearAllBtn").addEventListener("click", () => {
     confirmDelete("Clear ALL words? This cannot be undone.", () => {
@@ -351,20 +360,16 @@ function setupButtons() {
 }
 
 function clearLang(lang) {
-  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : "PH_words";
+  const langKey = lang === "en" ? "EN_words" : lang === "bn" ? "BN_words" : lang === "ph" ? "PH_words" : "ERROR_words";
   vocabData.words[langKey] = { 1: [] };
-  if (lang === "ph") {
-    vocabData.meta.totalWords = getAllWords("en").length + getAllWords("bn").length;
-  } else {
-    const other = lang === "en" ? "bn" : "en";
-    vocabData.meta.totalWords = getAllWords(other).length + getAllWords("ph").length;
-  }
+  const totalWords = getAllWords("en").length + getAllWords("bn").length + getAllWords("ph").length + getAllWords("error").length;
+  vocabData.meta.totalWords = totalWords;
   vocabData.meta.lastUpdated = new Date().toISOString();
 
   chrome.storage.local.set({ vocabData }, () => {
     loadAndRender();
-    const label = lang === "en" ? "English" : lang === "bn" ? "Bangla" : "Phrase";
-    showPopupToast(`${label} words cleared`, "warn");
+    const label = lang === "en" ? "English" : lang === "bn" ? "Bangla" : lang === "ph" ? "Phrase" : "Error Log";
+    showPopupToast(`${label} cleared`, "warn");
   });
 }
 

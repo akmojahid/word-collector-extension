@@ -82,6 +82,10 @@
       <span class="tab-label">Phrase</span>
       <span class="tab-badge" id="phBadge">0</span>
     </button>
+    <button class="tab-btn" data-tab="error">
+      <span class="tab-label">Error Log</span>
+      <span class="tab-badge" id="errBadge">0</span>
+    </button>
     <button class="tab-btn" data-tab="settings">
       <span class="tab-label">Settings</span>
     </button>
@@ -135,6 +139,21 @@
       </div>
     </div>
 
+    <!-- Error Log Panel -->
+    <div class="panel" id="panel-error">
+      <div class="panel-toolbar">
+        <span class="toolbar-hint">Click a chunk to expand • Copy logged mistakes as array</span>
+        <button class="small-btn danger-btn" id="clearErrorBtn">Clear All</button>
+      </div>
+      <div class="chunks-list" id="errChunks">
+        <div class="empty-state" id="errEmpty">
+          <div class="empty-icon">⚠️</div>
+          <p>No error log entries yet</p>
+          <span>Select a word or phrase and press <kbd>Alt+X</kbd> or right-click → Add to Error Log</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Settings Panel -->
     <div class="panel" id="panel-settings">
       <div class="settings-section">
@@ -155,6 +174,7 @@
         <ul class="how-to-list">
           <li><span class="step-num">1</span> Select a word or phrase (up to 5 words)</li>
           <li><span class="step-num">2</span> Press <kbd>Alt+S</kbd> or right-click → "Save to Vocab Vault"</li>
+          <li><span class="step-num">2</span> Press <kbd>Alt+X</kbd> or right-click → "Add to Error Log"</li>
           <li><span class="step-num">3</span> Words auto-detect as English or Bangla</li>
           <li><span class="step-num">4</span> Words are grouped in chunks of 20</li>
           <li><span class="step-num">5</span> Export your full database as JSON anytime</li>
