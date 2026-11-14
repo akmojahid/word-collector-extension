@@ -4,14 +4,14 @@ A beautiful Chrome extension for collecting and organizing Bangla, English, and 
 
 ## ✨ Features
 
-- 📖 **Dual Language Support** - Automatically detect and save English and Bangla words
-- ✍️ **Phrase Collection** - Save multi-word phrases and sentences (up to 5 words)
-- 📚 **Smart Chunking** - Words are automatically organized into chunks of 20 for efficient learning
-- 🏷️ **Status Tracking** - Track chunk status as Running → Unread → Read
-- 🎨 **Vintage Study Aesthetic** - Beautiful, distraction-free UI designed for focused learning
-- ⚡ **Quick Save** - Use `Alt+S` keyboard shortcut or right-click context menu
-- 💾 **Export Database** - Export your complete vocabulary as JSON anytime
-- 📱 **Responsive Design** - Works seamlessly across all pages
+-  **Dual Language Support** - Automatically detect and save English and Bangla words
+-  **Phrase Collection** - Save multi-word phrases and sentences (up to 5 words)
+-  **Smart Chunking** - Words are automatically organized into chunks of 20 for efficient learning
+-  **Status Tracking** - Track chunk status as Running → Unread → Read
+-  **Vintage Study Aesthetic** - Beautiful, distraction-free UI designed for focused learning
+-  **Quick Save** - Use `Alt+S` keyboard shortcut or right-click context menu
+-  **Export Database** - Export your complete vocabulary as JSON anytime
+-  **Responsive Design** - Works seamlessly across all pages
 
 ## 🚀 Installation
 
@@ -50,7 +50,7 @@ cd word-collector-extension/vocab-extension
 - Auto-detection:
   - 🇬🇧 **English** for Latin-script words
   - 🇧🇩 **Bangla** for Bengali script  
-  - ✍️ **Phrase** for selections with multiple words
+  - **Phrase** for selections with multiple words
 
 ### Managing Your Vocabulary
 
@@ -106,7 +106,7 @@ cd word-collector-extension/vocab-extension
 - Everything: Settings → "Clear All Words" (⚠️ irreversible)
 - Shows timestamp of last update
 
-## 📊 How Data is Organized
+##  How Data is Organized
 
 Words are stored in **chunks of 20** for optimal learning:
 
@@ -148,9 +148,9 @@ Words are stored in **chunks of 20** for optimal learning:
 ```
 
 **Chunk Statuses:**
-- 🟠 **Running** - Active chunk, < 20 words
-- 🔵 **Unread** - Full chunk (20 words), not yet reviewed
-- ✅ **Read** - Completed and marked as reviewed
+-  **Running** - Active chunk, < 20 words
+-  **Unread** - Full chunk (20 words), not yet reviewed
+-  **Read** - Completed and marked as reviewed
 
 ## 🛠️ Technical Details
 
@@ -241,7 +241,7 @@ vocab-extension/
 - ✅ Look for backup JSON file if you exported previously
 - ✅ Check Chrome sync settings
 
-## 🚀 Development
+##  Development
 
 ### Prerequisites
 - Chrome browser (v88+)
@@ -272,7 +272,7 @@ vocab-extension/
 - Service Worker logs: `chrome://extensions/` → Details → Service Worker → inspect
 - Content script errors: DevTools → Console on any webpage
 
-## 📋 Roadmap / Future Features
+##  Roadmap / Future Features
 
 - [ ] Word difficulty/proficiency levels
 - [ ] Spaced repetition algorithm
@@ -291,7 +291,7 @@ MIT License - Feel free to use, modify, and distribute.
 
 See LICENSE file for details.
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! 
 
@@ -301,7 +301,7 @@ Contributions are welcome!
 4. **Push** to your branch (`git push origin feature/amazing-feature`)
 5. Open a **Pull Request**
 
-## 📞 Support & Feedback
+##  Support & Feedback
 
 - **Report Issues** - Open an issue on GitHub
 - **Feature Requests** - Create an issue with "enhancement" label
@@ -309,6 +309,4 @@ Contributions are welcome!
 
 ---
 
-**Happy Learning! Build your vocabulary one word at a time. 🎓**
-
-Made with ❤️ for language learners everywhere.
+**Happy Learning! Build your vocabulary one word at a time. **
